@@ -40,7 +40,7 @@ class StreamHandlerImpl implements EventChannel.StreamHandler {
 
       @Override
       public void onSensorChanged(SensorEvent event) {
-        double[] sensorValues = new double[event.values.length];
+        double[] sensorValues = new double[event.values.length+1];
         for (int i = 0; i < event.values.length; i++) {
           sensorValues[i] = event.values[i];
         }
