@@ -69,6 +69,7 @@ class SensorsPlugin extends SensorsPlatform {
                     _accelerometer.x as double,
                     _accelerometer.y as double,
                     _accelerometer.z as double,
+                    _accelerometer.timestamp as double,
                   ),
                 );
               },
@@ -84,7 +85,7 @@ class SensorsPlugin extends SensorsPlatform {
         apiName: 'Accelerometer()',
         premissionName: 'accelerometer',
         onError: () {
-          _accelerometerStreamController!.add(AccelerometerEvent(0, 0, 0));
+          _accelerometerStreamController!.add(AccelerometerEvent(0, 0, 0, 0));
         },
       );
       _accelerometerResultStream =
@@ -115,6 +116,7 @@ class SensorsPlugin extends SensorsPlatform {
                     _gyroscope.x as double,
                     _gyroscope.y as double,
                     _gyroscope.z as double,
+                    _gyroscope.timestamp as double,
                   ),
                 );
               },
@@ -130,7 +132,7 @@ class SensorsPlugin extends SensorsPlatform {
         apiName: 'Gyroscope()',
         premissionName: 'gyroscope',
         onError: () {
-          _gyroscopeEventStreamController!.add(GyroscopeEvent(0, 0, 0));
+          _gyroscopeEventStreamController!.add(GyroscopeEvent(0, 0, 0, 0));
         },
       );
       _gyroscopeEventResultStream =
@@ -162,6 +164,7 @@ class SensorsPlugin extends SensorsPlatform {
                     _linearAccelerationSensor.x as double,
                     _linearAccelerationSensor.y as double,
                     _linearAccelerationSensor.z as double,
+                    _linearAccelerationSensor.timestamp as double,
                   ),
                 );
               },
@@ -178,7 +181,7 @@ class SensorsPlugin extends SensorsPlatform {
         premissionName: 'accelerometer',
         onError: () {
           _userAccelerometerStreamController!
-              .add(UserAccelerometerEvent(0, 0, 0));
+              .add(UserAccelerometerEvent(0, 0, 0, 0));
         },
       );
       _userAccelerometerResultStream =
