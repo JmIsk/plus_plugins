@@ -12,6 +12,7 @@ import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
+
 /** SensorsPlugin */
 public class SensorsPlugin implements FlutterPlugin {
   private static final String ACCELEROMETER_CHANNEL_NAME =

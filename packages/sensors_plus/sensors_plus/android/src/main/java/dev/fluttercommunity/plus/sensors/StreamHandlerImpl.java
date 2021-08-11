@@ -9,6 +9,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import io.flutter.plugin.common.EventChannel;
+import java.util.concurrent.TimeUnit;
 
 class StreamHandlerImpl implements EventChannel.StreamHandler {
 
@@ -43,6 +44,7 @@ class StreamHandlerImpl implements EventChannel.StreamHandler {
         for (int i = 0; i < event.values.length; i++) {
           sensorValues[i] = event.values[i];
         }
+        sensorValues[event.values.length] = TimeUnit.NANOSECONDS.toMillis(event.timestamp);
         events.success(sensorValues);
       }
     };

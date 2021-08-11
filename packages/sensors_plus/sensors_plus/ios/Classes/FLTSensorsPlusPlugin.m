@@ -41,11 +41,12 @@ void _initMotionManager() {
   }
 }
 
-static void sendTriplet(Float64 x, Float64 y, Float64 z, FlutterEventSink sink) {
+static void sendTriplet(Float64 x, Float64 y, Float64 z, Float64 timestamp, FlutterEventSink sink) {
   NSMutableData* event = [NSMutableData dataWithCapacity:3 * sizeof(Float64)];
   [event appendBytes:&x length:sizeof(Float64)];
   [event appendBytes:&y length:sizeof(Float64)];
   [event appendBytes:&z length:sizeof(Float64)];
+  [event appendBytes:&timestamp length:sizeof(Float64)];
   sink([FlutterStandardTypedData typedDataWithFloat64:event]);
 }
 
@@ -59,8 +60,8 @@ static void sendTriplet(Float64 x, Float64 y, Float64 z, FlutterEventSink sink) 
                              CMAcceleration acceleration = accelerometerData.acceleration;
                              // Multiply by gravity, and adjust sign values to
                              // align with Android.
-                             sendTriplet(-acceleration.x * GRAVITY, -acceleration.y * GRAVITY,
-                                         -acceleration.z * GRAVITY, eventSink);
+                             sendQuadruplet(-acceleration.x * GRAVITY, -acceleration.y * GRAVITY,
+                                         -acceleration.z * GRAVITY, accelerometerData.timestamp*1000, eventSink);
                            }];
   return nil;
 }
@@ -81,8 +82,8 @@ static void sendTriplet(Float64 x, Float64 y, Float64 z, FlutterEventSink sink) 
                           withHandler:^(CMDeviceMotion* data, NSError* error) {
                             CMAcceleration acceleration = data.userAcceleration;
                             // Multiply by gravity, and adjust sign values to align with Android.
-                            sendTriplet(-acceleration.x * GRAVITY, -acceleration.y * GRAVITY,
-                                        -acceleration.z * GRAVITY, eventSink);
+                            sendQuadruplet(-acceleration.x * GRAVITY, -acceleration.y * GRAVITY,
+                                        -acceleration.z * GRAVITY, data.timestamp*1000, eventSink);
                           }];
   return nil;
 }
@@ -102,7 +103,7 @@ static void sendTriplet(Float64 x, Float64 y, Float64 z, FlutterEventSink sink) 
       startGyroUpdatesToQueue:[[NSOperationQueue alloc] init]
                   withHandler:^(CMGyroData* gyroData, NSError* error) {
                     CMRotationRate rotationRate = gyroData.rotationRate;
-                    sendTriplet(rotationRate.x, rotationRate.y, rotationRate.z, eventSink);
+                    sendQuadruplet(rotationRate.x, rotationRate.y, rotationRate.z, gyroData.timestamp*1000, eventSink);
                   }];
   return nil;
 }
